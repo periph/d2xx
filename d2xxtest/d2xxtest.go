@@ -21,75 +21,92 @@ type Fake struct {
 	E       d2xx.EEPROM
 }
 
+// Close implements d2xx.Handle.
 func (f *Fake) Close() d2xx.Err {
 	return 0
 }
 
+// ResetDevice implements d2xx.Handle.
 func (f *Fake) ResetDevice() d2xx.Err {
 	return 0
 }
 
+// GetDeviceInfo implements d2xx.Handle.
 func (f *Fake) GetDeviceInfo() (uint32, uint16, uint16, d2xx.Err) {
 	return f.DevType, f.Vid, f.Pid, 0
 }
 
+// EEPROMRead implements d2xx.Handle.
 func (f *Fake) EEPROMRead(devType uint32, e *d2xx.EEPROM) d2xx.Err {
 	*e = f.E
 	return 0
 }
 
+// EEPROMProgram implements d2xx.Handle.
 func (f *Fake) EEPROMProgram(e *d2xx.EEPROM) d2xx.Err {
 	f.E = *e
 	return 0
 }
 
+// EraseEE implements d2xx.Handle.
 func (f *Fake) EraseEE() d2xx.Err {
 	return 0
 }
 
+// WriteEE implements d2xx.Handle.
 func (f *Fake) WriteEE(offset uint8, value uint16) d2xx.Err {
 	return 1
 }
 
+// EEUASize implements d2xx.Handle.
 func (f *Fake) EEUASize() (int, d2xx.Err) {
 	return len(f.UA), 0
 }
 
+// EEUARead implements d2xx.Handle.
 func (f *Fake) EEUARead(UA []byte) d2xx.Err {
 	copy(UA, f.UA)
 	return 0
 }
 
+// EEUAWrite implements d2xx.Handle.
 func (f *Fake) EEUAWrite(ua []byte) d2xx.Err {
 	f.UA = make([]byte, len(ua))
 	copy(f.UA, ua)
 	return 0
 }
 
+// SetChars implements d2xx.Handle.
 func (f *Fake) SetChars(eventChar byte, eventEn bool, errorChar byte, errorEn bool) d2xx.Err {
 	return 0
 }
 
+// SetUSBParameters implements d2xx.Handle.
 func (f *Fake) SetUSBParameters(in, out int) d2xx.Err {
 	return 0
 }
 
+// SetFlowControl implements d2xx.Handle.
 func (f *Fake) SetFlowControl() d2xx.Err {
 	return 0
 }
 
+// SetTimeouts implements d2xx.Handle.
 func (f *Fake) SetTimeouts(readMS, writeMS int) d2xx.Err {
 	return 0
 }
 
+// SetLatencyTimer implements d2xx.Handle.
 func (f *Fake) SetLatencyTimer(delayMS uint8) d2xx.Err {
 	return 0
 }
 
+// SetBaudRate implements d2xx.Handle.
 func (f *Fake) SetBaudRate(hz uint32) d2xx.Err {
 	return 0
 }
 
+// GetQueueStatus implements d2xx.Handle.
 func (f *Fake) GetQueueStatus() (uint32, d2xx.Err) {
 	if len(f.Data) == 0 {
 		return 0, 0
@@ -102,6 +119,7 @@ func (f *Fake) GetQueueStatus() (uint32, d2xx.Err) {
 	return uint32(l), 0
 }
 
+// Read implements d2xx.Handle.
 func (f *Fake) Read(b []byte) (int, d2xx.Err) {
 	if len(f.Data) == 0 {
 		return 0, 0
@@ -122,14 +140,17 @@ func (f *Fake) Read(b []byte) (int, d2xx.Err) {
 	return l, 0
 }
 
+// Write implements d2xx.Handle.
 func (f *Fake) Write(b []byte) (int, d2xx.Err) {
 	return 0, 0
 }
 
+// GetBitMode implements d2xx.Handle.
 func (f *Fake) GetBitMode() (byte, d2xx.Err) {
 	return 0, 0
 }
 
+// SetBitMode implements d2xx.Handle.
 func (f *Fake) SetBitMode(mask, mode byte) d2xx.Err {
 	return 0
 }
@@ -141,86 +162,103 @@ type Log struct {
 	Printf func(format string, v ...interface{})
 }
 
+// Close implements d2xx.Handle.
 func (l *Log) Close() d2xx.Err {
 	defer l.logDefer("Close()")()
 	return l.H.Close()
 }
 
+// ResetDevice implements d2xx.Handle.
 func (l *Log) ResetDevice() d2xx.Err {
 	defer l.logDefer("ResetDevice()")()
 	return l.H.ResetDevice()
 }
 
+// GetDeviceInfo implements d2xx.Handle.
 func (l *Log) GetDeviceInfo() (uint32, uint16, uint16, d2xx.Err) {
 	defer l.logDefer("GetDeviceInfo()")()
 	return l.H.GetDeviceInfo()
 }
 
+// EEPROMRead implements d2xx.Handle.
 func (l *Log) EEPROMRead(devType uint32, e *d2xx.EEPROM) d2xx.Err {
 	defer l.logDefer("EEPROMRead(%d, %d bytes)")(devType, len(e.Raw))
 	return l.H.EEPROMRead(devType, e)
 }
 
+// EEPROMProgram implements d2xx.Handle.
 func (l *Log) EEPROMProgram(e *d2xx.EEPROM) d2xx.Err {
 	defer l.logDefer("EEPROMProgram(%#x)")(e)
 	return l.H.EEPROMProgram(e)
 }
 
+// EraseEE implements d2xx.Handle.
 func (l *Log) EraseEE() d2xx.Err {
 	defer l.logDefer("EraseEE()")()
 	return l.H.EraseEE()
 }
 
+// WriteEE implements d2xx.Handle.
 func (l *Log) WriteEE(offset uint8, value uint16) d2xx.Err {
 	defer l.logDefer("WriteEE(%d, %d)")(offset, value)
 	return l.H.WriteEE(offset, value)
 }
 
+// EEUASize implements d2xx.Handle.
 func (l *Log) EEUASize() (int, d2xx.Err) {
 	defer l.logDefer("EEUASize()")()
 	return l.H.EEUASize()
 }
 
+// EEUARead implements d2xx.Handle.
 func (l *Log) EEUARead(ua []byte) d2xx.Err {
 	defer l.logDefer("EEUARead(%d bytes)")(len(ua))
 	return l.H.EEUARead(ua)
 }
 
+// EEUAWrite implements d2xx.Handle.
 func (l *Log) EEUAWrite(ua []byte) d2xx.Err {
 	defer l.logDefer("EEUAWrite(%#x)")(ua)
 	return l.H.EEUAWrite(ua)
 }
 
+// SetChars implements d2xx.Handle.
 func (l *Log) SetChars(eventChar byte, eventEn bool, errorChar byte, errorEn bool) d2xx.Err {
 	defer l.logDefer("SetChars(%d, %t, %d, %t)")(eventChar, eventEn, errorChar, errorEn)
 	return l.H.SetChars(eventChar, eventEn, errorChar, errorEn)
 }
 
+// SetUSBParameters implements d2xx.Handle.
 func (l *Log) SetUSBParameters(in, out int) d2xx.Err {
 	defer l.logDefer("SetUSBParameters(%d, %d)")(in, out)
 	return l.H.SetUSBParameters(in, out)
 }
 
+// SetFlowControl implements d2xx.Handle.
 func (l *Log) SetFlowControl() d2xx.Err {
 	defer l.logDefer("SetFlowControl()")()
 	return l.H.SetFlowControl()
 }
 
+// SetTimeouts implements d2xx.Handle.
 func (l *Log) SetTimeouts(readMS, writeMS int) d2xx.Err {
 	defer l.logDefer("SetTimeouts(%d, %d)")(readMS, writeMS)
 	return l.H.SetTimeouts(readMS, writeMS)
 }
 
+// SetLatencyTimer implements d2xx.Handle.
 func (l *Log) SetLatencyTimer(delayMS uint8) d2xx.Err {
 	defer l.logDefer("SetLatencyTimer(%d)")(delayMS)
 	return l.H.SetLatencyTimer(delayMS)
 }
 
+// SetBaudRate implements d2xx.Handle.
 func (l *Log) SetBaudRate(hz uint32) d2xx.Err {
 	defer l.logDefer("SetBaudRate(%d)")(hz)
 	return l.H.SetBaudRate(hz)
 }
 
+// GetQueueStatus implements d2xx.Handle.
 func (l *Log) GetQueueStatus() (uint32, d2xx.Err) {
 	f := l.logDefer("GetQueueStatus() = %d, %d")
 	p, e := l.H.GetQueueStatus()
@@ -228,6 +266,7 @@ func (l *Log) GetQueueStatus() (uint32, d2xx.Err) {
 	return p, e
 }
 
+// Read implements d2xx.Handle.
 func (l *Log) Read(b []byte) (int, d2xx.Err) {
 	f := l.logDefer("Read(%d bytes) = %#x")
 	n, e := l.H.Read(b)
@@ -235,11 +274,13 @@ func (l *Log) Read(b []byte) (int, d2xx.Err) {
 	return n, e
 }
 
+// Write implements d2xx.Handle.
 func (l *Log) Write(b []byte) (int, d2xx.Err) {
 	defer l.logDefer("Write(%#x)")(b)
 	return l.H.Write(b)
 }
 
+// GetBitMode implements d2xx.Handle.
 func (l *Log) GetBitMode() (byte, d2xx.Err) {
 	f := l.logDefer("GetBitMode() = %02X")
 	b, e := l.H.GetBitMode()
@@ -247,6 +288,7 @@ func (l *Log) GetBitMode() (byte, d2xx.Err) {
 	return b, e
 }
 
+// SetBitMode implements d2xx.Handle.
 func (l *Log) SetBitMode(mask, mode byte) d2xx.Err {
 	f := l.logDefer("SetBitMode(0x%02X, 0x%02X) = %d")
 	e := l.H.SetBitMode(mask, mode)
