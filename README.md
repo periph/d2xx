@@ -7,7 +7,7 @@ See https://periph.io/device/ftdi/ for more details, and how to configure
 the host to be able to use this driver.
 
 This package is not Go idiomatic. You will want to use
-https://periph.io/x/host/ftdi instead.
+https://periph.io/x/host/v3/ftdi (or later) instead.
 
 ## Included driver license
 
