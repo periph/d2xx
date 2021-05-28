@@ -1,0 +1,27 @@
+# Copyright 2021 The Periph Authors. All rights reserved.
+# Use of this source code is governed under the Apache License, Version 2.0
+# that can be found in the LICENSE file.
+
+# See https://github.com/periph/gohci
+version: 1
+workers:
+- checks:
+  - cmd:
+    - go
+    - test
+    - ./...
+  - cmd:
+    - git
+    - clone
+    - https://github.com/periph/host
+    dir: ..
+  - cmd:
+    - go
+    - get
+    - periph.io/x/d2xx@${GIT_SHA}
+    dir: ../host
+  - cmd:
+    - go
+    - test
+    - ./...
+    dir: ../host
