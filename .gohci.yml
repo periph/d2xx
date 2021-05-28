@@ -10,9 +10,12 @@ workers:
     - go
     - test
     - ./...
+  # Test in advance.
   - cmd:
     - git
     - clone
+    - -depth
+    - 1
     - https://github.com/periph/host
     dir: ..
   - cmd:
@@ -25,3 +28,21 @@ workers:
     - test
     - ./...
     dir: ../host
+  # Test in advance.
+  - cmd:
+    - git
+    - clone
+    - -depth
+    - 1
+    - https://github.com/periph/cmd
+    dir: ..
+  - cmd:
+    - go
+    - get
+    - periph.io/x/d2xx@${GIT_SHA}
+    dir: ../cmd
+  - cmd:
+    - go
+    - test
+    - ./...
+    dir: ../cmd
