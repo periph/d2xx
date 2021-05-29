@@ -9,6 +9,10 @@ the host to be able to use this driver.
 This package is not Go idiomatic. You will want to use
 https://periph.io/x/host/v3/ftdi (or later) instead.
 
+But if you really want, here it goes:
+[![PkgGoDev](https://pkg.go.dev/badge/periph.io/x/d2xx)](https://pkg.go.dev/periph.io/x/d2xx)
+
+
 ## Included driver license
 
 - ftd2xx.h is v2.12.28
