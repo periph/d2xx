@@ -4,8 +4,6 @@
 # that can be found in the LICENSE file.
 
 # Builds the package on multiple OSes to confirm it builds fine.
-#
-# It is recommended to use the -i flag so subsequent runs are much faster.
 
 set -eu
 
@@ -14,7 +12,7 @@ cd `dirname $0`
 OPT=$*
 
 function build {
-  echo "Testing on $1/$2"
+  echo "Building on $1/$2"
   GOOS=$1 GOARCH=$2 go build $OPT
 }
 
