@@ -7,6 +7,6 @@
 package d2xx
 
 /*
-#cgo LDFLAGS: -framework CoreFoundation -framework IOKit ${SRCDIR}/darwin_amd64/libftd2xx.a
+#cgo LDFLAGS: -framework CoreFoundation -framework IOKit ${SRCDIR}/third_party/libftd2xx_darwin_amd64_v1.4.4.a
 */
 import "C"

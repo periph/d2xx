@@ -7,6 +7,6 @@
 package d2xx
 
 /*
-#cgo LDFLAGS: ${SRCDIR}/linux_amd64/libftd2xx.a
+#cgo LDFLAGS: ${SRCDIR}/third_party/libftd2xx_linux_amd64_v1.4.6.a
 */
 import "C"
