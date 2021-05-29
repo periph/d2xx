@@ -5,11 +5,11 @@
 // Package d2xx is a thin Go wrapper for the Future Technology "D2XX" driver.
 //
 // This package is not Go idiomatic. You want to use
-// https://periph.io/x/host/ftdi instead.
+// https://periph.io/x/host/v3/ftdi instead.
 //
 // A binary copy of the d2xx driver is included for linux and macOS. They are
-// from http://www.ftdichip.com/Drivers/D2XX.htm. See README.md for more
-// details.
+// from https://ftdichip.com/drivers/d2xx-drivers/. See third_party/README.md
+// for more details.
 //
 // Configuration
 //
