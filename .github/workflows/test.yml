@@ -188,6 +188,15 @@ jobs:
           false
         fi
 
+    # Specific for d2xx
+    - name: "test.sh to test cross-compilation (ubuntu)"
+      # Don't run on other platforms because they lack the prerequisites to do
+      # cross compilation.
+      if: matrix.os == 'ubuntu-latest'
+      run: |
+        sudo apt-get install -y gcc-arm-linux-gnueabihf gcc-multilib-arm-linux-gnueabihf
+        ./test.sh
+
     - name: 'Send comments'
       if: failure() && github.event_name == 'pull_request'
       run: |

@@ -2,7 +2,9 @@
 // Use of this source code is governed under the Apache License, Version 2.0
 // that can be found in the LICENSE file.
 
+// +build cgo
 // +build !windows
+// +build !no_d2xx
 
 package d2xx
 

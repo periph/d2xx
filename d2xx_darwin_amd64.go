@@ -3,6 +3,7 @@
 // that can be found in the LICENSE file.
 
 // +build cgo
+// +build !no_d2xx
 
 package d2xx
 

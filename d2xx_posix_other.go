@@ -7,8 +7,11 @@
 // +build !linux,!amd64
 // +build !linux,!arm
 // +build !windows
+// +build !no_d2xx
 
 package d2xx
+
+// This assumes the library is installed and available for linking.
 
 /*
 #cgo LDFLAGS: -lftd2xx
