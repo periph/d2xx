@@ -14,9 +14,8 @@ type Err int
 // These are additional synthetic error codes.
 const (
 	// NoCGO is returned when the package was compiled without cgo, thus the d2xx
-	// library is unavailable.
-	//
-	// This is never returned on Windows.
+	// library is unavailable or the library was disabled via the `no_d2xx` build
+	// tag.
 	NoCGO Err = -2
 	// Missing is returned when the dynamic library is not available.
 	Missing Err = -1
@@ -117,16 +116,30 @@ type Handle interface {
 var _ Handle = handle(0)
 
 // Version returns the library's version.
+//
+// 0, 0, 0 is returned if the library is unavailable.
 func Version() (uint8, uint8, uint8) {
 	return version()
 }
 
 // CreateDeviceInfoList discovers the currently found devices.
+//
+// If the driver is disabled via build tag `no_d2xx`, or on posix
+// `CGO_ENABLED=0` environment variable, NoCGO is returned.
+//
+// On Windows, Missing is returned if the dynamic library is not found at
+// runtime.
 func CreateDeviceInfoList() (int, Err) {
 	return createDeviceInfoList()
 }
 
 // Open opens the ith device discovered.
+//
+// If the driver is disabled via build tag `no_d2xx`, or on posix
+// `CGO_ENABLED=0` environment variable, NoCGO is returned.
+//
+// On Windows, Missing is returned if the dynamic library is not found at
+// runtime.
 func Open(i int) (Handle, Err) {
 	return open(i)
 }

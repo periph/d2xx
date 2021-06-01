@@ -23,7 +23,8 @@ On darwin_amd64, linux_amd64 and linux_arm (v6), cgo is required. If cgo is
 disabled (via `CGO_ENABLED=0`), all functions in this driver return error
 [NoCGO](https://periph.io/x/d2xx#NoCGO).
 
-On Windows, cgo is not required.
+On Windows, cgo is not required. If the dynamic library is not found at runtime,
+[Missing](https://periph.io/x/d2xx#Missing) is returned.
 
 ## bcm2385
 
