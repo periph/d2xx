@@ -194,7 +194,7 @@ jobs:
       # cross compilation.
       if: matrix.os == 'ubuntu-latest'
       run: |
-        sudo apt-get install -y gcc-arm-linux-gnueabihf gcc-multilib-arm-linux-gnueabihf
+        sudo apt-get install -y gcc-arm-linux-gnueabihf gcc-multilib-arm-linux-gnueabihf gcc-aarch64-linux-gnu
         ./test.sh
 
     - name: 'Send comments'
