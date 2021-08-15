@@ -143,3 +143,8 @@ func CreateDeviceInfoList() (int, Err) {
 func Open(i int) (Handle, Err) {
 	return open(i)
 }
+
+// Rescan rescan the USB bus for new devices.
+func Rescan() Err {
+	return rescan()
+}

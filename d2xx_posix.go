@@ -34,6 +34,10 @@ func createDeviceInfoList() (int, Err) {
 	return int(num), Err(e)
 }
 
+func rescan() Err {
+	return Err(C.FT_Rescan())
+}
+
 func open(i int) (Handle, Err) {
 	var h C.FT_HANDLE
 	e := C.FT_Open(C.int(i), &h)

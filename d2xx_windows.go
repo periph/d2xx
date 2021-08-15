@@ -32,6 +32,14 @@ func createDeviceInfoList() (int, Err) {
 	return 0, Missing
 }
 
+func rescan() Err {
+	if pRescan != nil {
+		r1, _, _ := pRescan.Call()
+		return Err(r1)
+	}
+	return Missing
+}
+
 func open(i int) (Handle, Err) {
 	var h handle
 	if pOpen != nil {
@@ -210,6 +218,7 @@ func (h handle) toH() uintptr {
 var (
 	pClose                *syscall.Proc
 	pCreateDeviceInfoList *syscall.Proc
+	pRescan               *syscall.Proc
 	pEEPROMRead           *syscall.Proc
 	pEEPROMProgram        *syscall.Proc
 	pEraseEE              *syscall.Proc
@@ -247,6 +256,7 @@ func init() {
 		}
 		pClose = find("FT_Close")
 		pCreateDeviceInfoList = find("FT_CreateDeviceInfoList")
+		pRescan = find("FT_Rescan")
 		pEEPROMRead = find("FT_EEPROM_Read")
 		pEEPROMProgram = find("FT_EEPROM_Program")
 		pEraseEE = find("FT_EraseEE")

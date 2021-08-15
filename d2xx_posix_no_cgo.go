@@ -20,6 +20,10 @@ func createDeviceInfoList() (int, Err) {
 	return 0, NoCGO
 }
 
+func rescan() Err {
+	return NoCGO
+}
+
 func open(i int) (Handle, Err) {
 	return handle(0), NoCGO
 }
