@@ -8,6 +8,7 @@ package d2xx
 
 import (
 	"bytes"
+	"sync"
 	"syscall"
 	"unsafe"
 )
@@ -16,6 +17,7 @@ import (
 var Available = false
 
 func version() (uint8, uint8, uint8) {
+	lateInitOnce.Do(lateInit)
 	var v uint32
 	if pGetLibraryVersion != nil {
 		_, _, _ = pGetLibraryVersion.Call(uintptr(unsafe.Pointer(&v)))
@@ -24,6 +26,7 @@ func version() (uint8, uint8, uint8) {
 }
 
 func createDeviceInfoList() (int, Err) {
+	lateInitOnce.Do(lateInit)
 	if pCreateDeviceInfoList != nil {
 		var num uint32
 		r1, _, _ := pCreateDeviceInfoList.Call(uintptr(unsafe.Pointer(&num)))
@@ -33,6 +36,7 @@ func createDeviceInfoList() (int, Err) {
 }
 
 func rescan() Err {
+	lateInitOnce.Do(lateInit)
 	if pRescan != nil {
 		r1, _, _ := pRescan.Call()
 		return Err(r1)
@@ -41,6 +45,7 @@ func rescan() Err {
 }
 
 func open(i int) (Handle, Err) {
+	lateInitOnce.Do(lateInit)
 	var h handle
 	if pOpen != nil {
 		r1, _, _ := pOpen.Call(uintptr(i), uintptr(unsafe.Pointer(&h)))
@@ -216,6 +221,8 @@ func (h handle) toH() uintptr {
 //
 
 var (
+	lateInitOnce sync.Once
+
 	pClose                *syscall.Proc
 	pCreateDeviceInfoList *syscall.Proc
 	pRescan               *syscall.Proc
@@ -243,7 +250,7 @@ var (
 	pWrite                *syscall.Proc
 )
 
-func init() {
+func lateInit() {
 	if dll, _ := syscall.LoadDLL("ftd2xx.dll"); dll != nil {
 		// If any function is not found, disable the support.
 		Available = true
