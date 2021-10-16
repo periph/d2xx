@@ -10,39 +10,55 @@ workers:
     - go
     - test
     - ./...
-  # Test in advance.
-  - cmd:
+  # Test in advance: host
+  - dir: ..
+    cmd:
     - git
     - clone
     - --depth
     - 1
     - https://github.com/periph/host
-    dir: ..
-  - cmd:
+  - dir: ../host
+    cmd:
+    - go
+    - mod
+    - edit
+    - -replace=periph.io/x/d2xx=../d2xx
+  - dir: ../host
+    cmd:
     - go
     - get
-    - periph.io/x/d2xx@${GIT_SHA}
-    dir: ../host
-  - cmd:
+    - -t
+    - ./...
+  - dir: ../host
+    cmd:
     - go
     - test
+    - -short
     - ./...
-    dir: ../host
-  # Test in advance.
-  - cmd:
+  # Test in advance: cmd
+  - dir: ..
+    cmd:
     - git
     - clone
     - --depth
     - 1
     - https://github.com/periph/cmd
-    dir: ..
-  - cmd:
+  - dir: ../cmd
+    cmd:
+    - go
+    - mod
+    - edit
+    - -replace=periph.io/x/d2xx=../d2xx
+  - dir: ../cmd
+    cmd:
     - go
     - get
-    - periph.io/x/d2xx@${GIT_SHA}
-    dir: ../cmd
-  - cmd:
+    - -t
+    - ./...
+  - dir: ../cmd
+    cmd:
     - go
     - test
+    - -short
     - ./...
-    dir: ../cmd
