@@ -195,6 +195,27 @@ jobs:
         sudo apt-get install -y gcc-arm-linux-gnueabihf gcc-multilib-arm-linux-gnueabihf gcc-aarch64-linux-gnu
         ./test.sh
 
+    - name: 'Test on periph.io/x/host'
+      # Force an upgrade to test host with tip of tree.
+      run: |
+        cd ..
+        git clone --depth 1 https://github.com/periph/host
+        cd host
+        go mod edit -replace=periph.io/x/d2xx=../d2xx
+        go get -t ./...
+        go test -short ./...
+
+    - name: 'Test on periph.io/x/cmd'
+      # Force an upgrade to test cmd with tip of tree.
+      run: |
+        cd ..
+        git clone --depth 1 https://github.com/periph/cmd
+        cd cmd
+        go mod edit -replace=periph.io/x/d2xx=../d2xx
+        go get -t ./...
+        go test -short ./...
+
+
     - name: 'Send comments'
       if: failure() && github.event_name == 'pull_request'
       run: |
