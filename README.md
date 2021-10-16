@@ -1,5 +1,7 @@
 # d2xx
 
+[![codecov](https://codecov.io/gh/periph/d2xx/branch/main/graph/badge.svg?token=1WKUQD9G55)](https://codecov.io/gh/periph/d2xx)
+
 Package d2xx is a thin Go wrapper for the Future Technology "D2XX" driver at
 https://ftdichip.com/drivers/d2xx-drivers/.
 
