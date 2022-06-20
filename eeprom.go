@@ -29,6 +29,7 @@ func (e *EEPROM) asHeader() *eepromHeader {
 	if len(e.Raw) < 16 {
 		return nil
 	}
+	/* #nosec G103 */
 	return (*eepromHeader)(unsafe.Pointer(&e.Raw[0]))
 }
 

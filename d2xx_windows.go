@@ -21,6 +21,7 @@ func version() (uint8, uint8, uint8) {
 	lateInitOnce.Do(lateInit)
 	var v uint32
 	if pGetLibraryVersion != nil {
+		/* #nosec G103 */
 		_, _, _ = pGetLibraryVersion.Call(uintptr(unsafe.Pointer(&v)))
 	}
 	return uint8(v >> 16), uint8(v >> 8), uint8(v)
@@ -30,6 +31,7 @@ func createDeviceInfoList() (int, Err) {
 	lateInitOnce.Do(lateInit)
 	if pCreateDeviceInfoList != nil {
 		var num uint32
+		/* #nosec G103 */
 		r1, _, _ := pCreateDeviceInfoList.Call(uintptr(unsafe.Pointer(&num)))
 		return int(num), Err(r1)
 	}
@@ -49,6 +51,7 @@ func open(i int) (Handle, Err) {
 	lateInitOnce.Do(lateInit)
 	var h handle
 	if pOpen != nil {
+		/* #nosec G103 */
 		r1, _, _ := pOpen.Call(uintptr(i), uintptr(unsafe.Pointer(&h)))
 		return h, Err(r1)
 	}
@@ -68,6 +71,7 @@ func (h handle) ResetDevice() Err {
 func (h handle) GetDeviceInfo() (uint32, uint16, uint16, Err) {
 	var d uint32
 	var id uint32
+	/* #nosec G103 */
 	if r1, _, _ := pGetDeviceInfo.Call(h.toH(), uintptr(unsafe.Pointer(&d)), uintptr(unsafe.Pointer(&id)), 0, 0, 0); r1 != 0 {
 		return unknown, 0, 0, Err(r1)
 	}
@@ -80,11 +84,16 @@ func (h handle) EEPROMRead(devType uint32, ee *EEPROM) Err {
 	var desc [64]byte
 	var serial [64]byte
 	// Shortcuts.
+	/* #nosec G103 */
 	m := uintptr(unsafe.Pointer(&manufacturer[0]))
+	/* #nosec G103 */
 	mi := uintptr(unsafe.Pointer(&manufacturerID[0]))
+	/* #nosec G103 */
 	de := uintptr(unsafe.Pointer(&desc[0]))
+	/* #nosec G103 */
 	s := uintptr(unsafe.Pointer(&serial[0]))
 
+	/* #nosec G103 */
 	eepromVoid := unsafe.Pointer(&ee.Raw[0])
 	hdr := ee.asHeader()
 	// It MUST be set here. This is not always the case on posix.
@@ -109,6 +118,7 @@ func (h handle) EEPROMProgram(ee *EEPROM) Err {
 	copy(cdesc[:], ee.Desc)
 	var cserial [64]byte
 	copy(cserial[:], ee.Serial)
+	/* #nosec G103 */
 	r1, _, _ := pEEPROMProgram.Call(h.toH(), uintptr(unsafe.Pointer(&ee.Raw[0])), uintptr(len(ee.Raw)), uintptr(unsafe.Pointer(&cmanu[0])), uintptr(unsafe.Pointer(&cmanuID[0])), uintptr(unsafe.Pointer(&cdesc[0])), uintptr(unsafe.Pointer(&cserial[0])))
 	return Err(r1)
 }
@@ -125,6 +135,7 @@ func (h handle) WriteEE(offset uint8, value uint16) Err {
 
 func (h handle) EEUASize() (int, Err) {
 	var size uint32
+	/* #nosec G103 */
 	if r1, _, _ := pEEUASize.Call(h.toH(), uintptr(unsafe.Pointer(&size))); r1 != 0 {
 		return 0, Err(r1)
 	}
@@ -133,6 +144,7 @@ func (h handle) EEUASize() (int, Err) {
 
 func (h handle) EEUARead(ua []byte) Err {
 	var size uint32
+	/* #nosec G103 */
 	if r1, _, _ := pEEUARead.Call(h.toH(), uintptr(unsafe.Pointer(&ua[0])), uintptr(len(ua)), uintptr(unsafe.Pointer(&size))); r1 != 0 {
 		return Err(r1)
 	}
@@ -143,6 +155,7 @@ func (h handle) EEUARead(ua []byte) Err {
 }
 
 func (h handle) EEUAWrite(ua []byte) Err {
+	/* #nosec G103 */
 	r1, _, _ := pEEUAWrite.Call(h.toH(), uintptr(unsafe.Pointer(&ua[0])), uintptr(len(ua)))
 	return Err(r1)
 }
@@ -188,24 +201,28 @@ func (h handle) SetBaudRate(hz uint32) Err {
 
 func (h handle) GetQueueStatus() (uint32, Err) {
 	var v uint32
+	/* #nosec G103 */
 	r1, _, _ := pGetQueueStatus.Call(h.toH(), uintptr(unsafe.Pointer(&v)))
 	return v, Err(r1)
 }
 
 func (h handle) Read(b []byte) (int, Err) {
 	var bytesRead uint32
+	/* #nosec G103 */
 	r1, _, _ := pRead.Call(h.toH(), uintptr(unsafe.Pointer(&b[0])), uintptr(len(b)), uintptr(unsafe.Pointer(&bytesRead)))
 	return int(bytesRead), Err(r1)
 }
 
 func (h handle) Write(b []byte) (int, Err) {
 	var bytesSent uint32
+	/* #nosec G103 */
 	r1, _, _ := pWrite.Call(h.toH(), uintptr(unsafe.Pointer(&b[0])), uintptr(len(b)), uintptr(unsafe.Pointer(&bytesSent)))
 	return int(bytesSent), Err(r1)
 }
 
 func (h handle) GetBitMode() (byte, Err) {
 	var s uint8
+	/* #nosec G103 */
 	r1, _, _ := pGetBitMode.Call(h.toH(), uintptr(unsafe.Pointer(&s)))
 	return s, Err(r1)
 }
