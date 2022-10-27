@@ -1,4 +1,4 @@
-// Copyright 2017 The Periph Authors. All rights reserved.
+// Copyright 2022 The Periph Authors. All rights reserved.
 // Use of this source code is governed under the Apache License, Version 2.0
 // that can be found in the LICENSE file.
 
@@ -8,6 +8,6 @@
 package d2xx
 
 /*
-#cgo LDFLAGS: ${SRCDIR}/third_party/libftd2xx_linux_amd64_v1.4.27.a
+#cgo LDFLAGS: -framework CoreFoundation -framework IOKit ${SRCDIR}/third_party/libftd2xx_darwin_arm64_v1.4.24.a
 */
 import "C"

@@ -11,6 +11,6 @@ package d2xx
 // optimal ARM architecture.
 
 /*
-#cgo LDFLAGS: ${SRCDIR}/third_party/libftd2xx_linux_arm6hf_v1.4.24.a
+#cgo LDFLAGS: ${SRCDIR}/third_party/libftd2xx_linux_arm6hf_v1.4.27.a
 */
 import "C"
