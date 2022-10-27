@@ -11,7 +11,7 @@
 // from https://ftdichip.com/drivers/d2xx-drivers/. See third_party/README.md
 // for more details.
 //
-// Configuration
+// # Configuration
 //
 // See https://periph.io/device/ftdi/ for more details, and how to configure
 // the host to be able to use this driver.
