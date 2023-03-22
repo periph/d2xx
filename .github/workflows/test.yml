@@ -30,7 +30,7 @@ jobs:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
         # Do not forget to bump every 6 months!
-        gover: ["1.19"]
+        gover: ["1.20"]
     env:
       PYTHONDONTWRITEBYTECODE: x
     steps:
@@ -53,6 +53,7 @@ jobs:
       run: go test -timeout=120s -covermode=count -coverprofile coverage.txt -bench=. -benchtime=1x ./...
       # Don't send code coverage if anything failed to reduce spam.
     - uses: codecov/codecov-action@v2
+      timeout-minutes: 1
     - name: 'Cleanup'
       if: always()
       run: rm coverage.txt
@@ -101,7 +102,7 @@ jobs:
         # Windows.
         os: [ubuntu-latest, macos-latest, windows-latest]
         # Do not forget to bump every 6 months!
-        gover: ["1.19"]
+        gover: ["1.20"]
     env:
       PYTHONDONTWRITEBYTECODE: x
     steps:
@@ -302,7 +303,7 @@ jobs:
       matrix:
         os: [ubuntu-latest]
         # Do not forget to bump every 6 months!
-        gover: ["1.19"]
+        gover: ["1.20"]
     permissions:
       security-events: write
     steps:
