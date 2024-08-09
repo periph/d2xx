@@ -71,8 +71,7 @@ func (h handle) ResetDevice() Err {
 func (h handle) GetDeviceInfo() (uint32, uint16, uint16, Err) {
 	var d uint32
 	var id uint32
-	/* #nosec G103 */
-	if r1, _, _ := pGetDeviceInfo.Call(h.toH(), uintptr(unsafe.Pointer(&d)), uintptr(unsafe.Pointer(&id)), 0, 0, 0); r1 != 0 {
+	if r1, _, _ := pGetDeviceInfo.Call(h.toH(), uintptr(unsafe.Pointer(&d)), uintptr(unsafe.Pointer(&id)), 0, 0, 0); r1 != 0 /* #nosec G103 */ {
 		return unknown, 0, 0, Err(r1)
 	}
 	return d, uint16(id >> 16), uint16(id), 0
@@ -135,8 +134,7 @@ func (h handle) WriteEE(offset uint8, value uint16) Err {
 
 func (h handle) EEUASize() (int, Err) {
 	var size uint32
-	/* #nosec G103 */
-	if r1, _, _ := pEEUASize.Call(h.toH(), uintptr(unsafe.Pointer(&size))); r1 != 0 {
+	if r1, _, _ := pEEUASize.Call(h.toH(), uintptr(unsafe.Pointer(&size))); r1 != 0 /* #nosec G103 */ {
 		return 0, Err(r1)
 	}
 	return int(size), 0
@@ -144,8 +142,7 @@ func (h handle) EEUASize() (int, Err) {
 
 func (h handle) EEUARead(ua []byte) Err {
 	var size uint32
-	/* #nosec G103 */
-	if r1, _, _ := pEEUARead.Call(h.toH(), uintptr(unsafe.Pointer(&ua[0])), uintptr(len(ua)), uintptr(unsafe.Pointer(&size))); r1 != 0 {
+	if r1, _, _ := pEEUARead.Call(h.toH(), uintptr(unsafe.Pointer(&ua[0])), uintptr(len(ua)), uintptr(unsafe.Pointer(&size))); r1 != 0 /* #nosec G103 */ {
 		return Err(r1)
 	}
 	if int(size) != len(ua) {
