@@ -8,7 +8,7 @@ package d2xxtest
 import (
 	"time"
 
-	"periph.io/x/d2xx"
+	"github.com/UoS-PPEMD4ALL/d2xx-wrapper"
 )
 
 // Fake implements a fake d2xx.Handle.

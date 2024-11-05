@@ -1,3 +1,3 @@
-module periph.io/x/d2xx
+module github.com/UoS-PPEMD4ALL/d2xx-wrapper
 
 go 1.22.6
