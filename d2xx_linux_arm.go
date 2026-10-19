@@ -2,6 +2,8 @@
 // Use of this source code is governed under the Apache License, Version 2.0
 // that can be found in the LICENSE file.
 
+// Link the bundled FTDI D2XX library on Linux ARM.
+
 //go:build cgo && !no_d2xx
 // +build cgo,!no_d2xx
 

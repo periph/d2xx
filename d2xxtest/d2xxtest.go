@@ -6,6 +6,7 @@
 package d2xxtest
 
 import (
+	"math"
 	"time"
 
 	"periph.io/x/d2xx"
@@ -112,7 +113,10 @@ func (f *Fake) GetQueueStatus() (uint32, d2xx.Err) {
 		return 0, 0
 	}
 	// This is to work around flushPending().
-	l := len(f.Data[0])
+	l := uint64(len(f.Data[0]))
+	if l > math.MaxUint32 {
+		return 0, 6 // FT_INVALID_PARAMETER: the queue count cannot represent this buffer.
+	}
 	if l == 0 {
 		f.Data = f.Data[1:]
 	}

@@ -2,6 +2,8 @@
 // Use of this source code is governed under the Apache License, Version 2.0
 // that can be found in the LICENSE file.
 
+// FTDI EEPROM data layout and header access.
+
 package d2xx
 
 import (

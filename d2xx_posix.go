@@ -2,6 +2,8 @@
 // Use of this source code is governed under the Apache License, Version 2.0
 // that can be found in the LICENSE file.
 
+// Call the FTDI D2XX C library on POSIX systems.
+
 //go:build cgo && !windows && !no_d2xx
 // +build cgo,!windows,!no_d2xx
 

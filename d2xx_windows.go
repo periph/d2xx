@@ -2,6 +2,8 @@
 // Use of this source code is governed under the Apache License, Version 2.0
 // that can be found in the LICENSE file.
 
+// Load and call the FTDI D2XX DLL on Windows.
+
 //go:build !no_d2xx
 // +build !no_d2xx
 
