@@ -5,7 +5,6 @@
 // Call the FTDI D2XX C library on POSIX systems.
 
 //go:build cgo && !windows && !no_d2xx
-// +build cgo,!windows,!no_d2xx
 
 package d2xx
 
@@ -41,7 +40,7 @@ func rescan() Err {
 
 func open(i int) (Handle, Err) {
 	var h C.FT_HANDLE
-	e := C.FT_Open(C.int(i), &h)
+	e := C.FT_Open(C.int(i), &h) //nolint:gocritic // cgo expansion triggers dupSubExpr on the FTDI call.
 	if uintptr(h) == 0 && e == 0 {
 		// 18 means FT_OTHER_ERROR. Kind of a hack but better than panic.
 		e = 18

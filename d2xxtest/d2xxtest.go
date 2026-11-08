@@ -38,7 +38,7 @@ func (f *Fake) GetDeviceInfo() (uint32, uint16, uint16, d2xx.Err) {
 }
 
 // EEPROMRead implements d2xx.Handle.
-func (f *Fake) EEPROMRead(devType uint32, e *d2xx.EEPROM) d2xx.Err {
+func (f *Fake) EEPROMRead(_ uint32, e *d2xx.EEPROM) d2xx.Err {
 	*e = f.E
 	return 0
 }
@@ -55,7 +55,7 @@ func (f *Fake) EraseEE() d2xx.Err {
 }
 
 // WriteEE implements d2xx.Handle.
-func (f *Fake) WriteEE(offset uint8, value uint16) d2xx.Err {
+func (f *Fake) WriteEE(_ uint8, _ uint16) d2xx.Err {
 	return 1
 }
 
@@ -65,8 +65,8 @@ func (f *Fake) EEUASize() (int, d2xx.Err) {
 }
 
 // EEUARead implements d2xx.Handle.
-func (f *Fake) EEUARead(UA []byte) d2xx.Err {
-	copy(UA, f.UA)
+func (f *Fake) EEUARead(ua []byte) d2xx.Err {
+	copy(ua, f.UA)
 	return 0
 }
 
@@ -78,12 +78,12 @@ func (f *Fake) EEUAWrite(ua []byte) d2xx.Err {
 }
 
 // SetChars implements d2xx.Handle.
-func (f *Fake) SetChars(eventChar byte, eventEn bool, errorChar byte, errorEn bool) d2xx.Err {
+func (f *Fake) SetChars(_ byte, _ bool, _ byte, _ bool) d2xx.Err {
 	return 0
 }
 
 // SetUSBParameters implements d2xx.Handle.
-func (f *Fake) SetUSBParameters(in, out int) d2xx.Err {
+func (f *Fake) SetUSBParameters(_, _ int) d2xx.Err {
 	return 0
 }
 
@@ -93,17 +93,17 @@ func (f *Fake) SetFlowControl() d2xx.Err {
 }
 
 // SetTimeouts implements d2xx.Handle.
-func (f *Fake) SetTimeouts(readMS, writeMS int) d2xx.Err {
+func (f *Fake) SetTimeouts(_, _ int) d2xx.Err {
 	return 0
 }
 
 // SetLatencyTimer implements d2xx.Handle.
-func (f *Fake) SetLatencyTimer(delayMS uint8) d2xx.Err {
+func (f *Fake) SetLatencyTimer(_ uint8) d2xx.Err {
 	return 0
 }
 
 // SetBaudRate implements d2xx.Handle.
-func (f *Fake) SetBaudRate(hz uint32) d2xx.Err {
+func (f *Fake) SetBaudRate(_ uint32) d2xx.Err {
 	return 0
 }
 
@@ -145,7 +145,7 @@ func (f *Fake) Read(b []byte) (int, d2xx.Err) {
 }
 
 // Write implements d2xx.Handle.
-func (f *Fake) Write(b []byte) (int, d2xx.Err) {
+func (f *Fake) Write(_ []byte) (int, d2xx.Err) {
 	return 0, 0
 }
 
@@ -155,7 +155,7 @@ func (f *Fake) GetBitMode() (byte, d2xx.Err) {
 }
 
 // SetBitMode implements d2xx.Handle.
-func (f *Fake) SetBitMode(mask, mode byte) d2xx.Err {
+func (f *Fake) SetBitMode(_, _ byte) d2xx.Err {
 	return 0
 }
 
@@ -163,7 +163,7 @@ func (f *Fake) SetBitMode(mask, mode byte) d2xx.Err {
 // driver.
 type Log struct {
 	H      d2xx.Handle
-	Printf func(format string, v ...interface{})
+	Printf func(format string, v ...any)
 }
 
 // Close implements d2xx.Handle.
@@ -300,10 +300,10 @@ func (l *Log) SetBitMode(mask, mode byte) d2xx.Err {
 	return e
 }
 
-func (l *Log) logDefer(fmt string) func(args ...interface{}) {
+func (l *Log) logDefer(fmt string) func(args ...any) {
 	var start time.Time
-	f := func(args ...interface{}) {
-		l.Printf("%7s "+fmt, append([]interface{}{roundDuration(time.Since(start))}, args...)...)
+	f := func(args ...any) {
+		l.Printf("%7s "+fmt, append([]any{roundDuration(time.Since(start))}, args...)...)
 	}
 	start = time.Now()
 	return f
@@ -311,7 +311,7 @@ func (l *Log) logDefer(fmt string) func(args ...interface{}) {
 
 //
 
-// log10 is a cheap way to find the most significant digit
+// log10 is a cheap way to find the most significant digit.
 func log10(i int64) uint {
 	switch {
 	case i < 10:
@@ -357,7 +357,7 @@ func roundDuration(d time.Duration) time.Duration {
 		for i := uint(3); i < l; i++ {
 			m *= 10
 		}
-		d = (d + (m / 2)) / m * m
+		d = time.Duration(int64((d+m/2)/m) * int64(m))
 	}
 	return d
 }
