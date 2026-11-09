@@ -5,7 +5,6 @@
 // Link an externally installed D2XX library on other POSIX targets.
 
 //go:build cgo && !darwin && !amd64 && !linux && !amd64 && !linux && !arm && !windows && !no_d2xx
-// +build cgo,!darwin,!amd64,!linux,!amd64,!linux,!arm,!windows,!no_d2xx
 
 package d2xx
 

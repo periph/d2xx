@@ -5,7 +5,6 @@
 // Load and call the FTDI D2XX DLL on Windows.
 
 //go:build !no_d2xx
-// +build !no_d2xx
 
 package d2xx
 
@@ -307,9 +306,6 @@ func lateInit() {
 }
 
 func toStr(c []byte) string {
-	i := bytes.IndexByte(c, 0)
-	if i != -1 {
-		return string(c[:i])
-	}
+	c, _, _ = bytes.Cut(c, []byte{0})
 	return string(c)
 }

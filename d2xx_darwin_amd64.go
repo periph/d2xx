@@ -5,7 +5,6 @@
 // Link the bundled FTDI D2XX library on macOS amd64.
 
 //go:build cgo && !no_d2xx
-// +build cgo,!no_d2xx
 
 package d2xx
 
